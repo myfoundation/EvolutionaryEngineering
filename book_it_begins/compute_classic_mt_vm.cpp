@@ -66,7 +66,8 @@ void VM_run(VM_context *CTX)
         if (CTX->REG_IP < 0 || CTX->REG_IP >= CTX->ROM_SIZE || CTX->REG_ADDR < 0 || CTX->REG_ADDR >= CTX->RAM_SIZE)
         {
             LOG("ERR. CPU EXCEPTION: REG_IP/REG_ADDR OUT OF MEMORY BOUNDS (%d).\n", CTX->REG_IP);
-            return;
+            is_run = 0;
+            break;
         }
 
         int op = CTX->ROM[CTX->REG_IP];
@@ -74,7 +75,8 @@ void VM_run(VM_context *CTX)
         if (op < 0 || op >= OP_COUNT)
         {
             LOG("ERR. CPU EXCEPTION: UNKNOWN OP_CODE '%d' AT ROM IP (%d).\n", op, CTX->REG_IP);
-            return;
+            is_run = 0;
+            break;
         }
 
         switch (op)
